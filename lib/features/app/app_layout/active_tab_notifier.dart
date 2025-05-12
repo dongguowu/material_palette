@@ -11,9 +11,10 @@ class ActiveTabIndex extends _$ActiveTabIndex {
   @override
   Future<int> build() async {
     try {
-      //TODO: selectAysnc
       final settings = await fetchCurrentSettings();
-      log('[ActiveTabIndex Notifier] Selected tab index: ${settings.selectedPageIndex}');
+      log(
+        '[ActiveTabIndex Notifier] Selected tab index: ${settings.selectedPageIndex}',
+      );
       return settings.selectedPageIndex ?? 0;
     } catch (e, stackTrace) {
       logError('Error fetching selected tab: $e', e as Error, stackTrace);
@@ -31,7 +32,9 @@ class ActiveTabIndex extends _$ActiveTabIndex {
 
       log('[ActiveTabIndex] updated to index: $newIndex');
       final updated = await fetchCurrentSettings();
-      log('[ActiveTabIndex] updated selected pageIndex: ${updated.selectedPageIndex}');
+      log(
+        '[ActiveTabIndex] updated selected pageIndex: ${updated.selectedPageIndex}',
+      );
       state = AsyncValue.data(newIndex);
       return newIndex;
     });
@@ -43,7 +46,8 @@ class ActiveTabIndex extends _$ActiveTabIndex {
       return settings;
     } catch (e, stackTrace) {
       logError('Error fetching selected tab: $e', e as Error, stackTrace);
-      return AppSettings.defaultAppSettings; // Return default settings in case of failure
+      return AppSettings
+          .defaultAppSettings; // Return default settings in case of failure
     }
   }
 }

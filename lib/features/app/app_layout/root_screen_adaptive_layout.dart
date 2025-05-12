@@ -56,17 +56,21 @@ class _MyHomePageState extends ConsumerState<RootAdaptiveScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final NavigationRailThemeData navRailTheme =
         Theme.of(context).navigationRailTheme;
 
     final Widget trailingNavRail = Column(
       children: <Widget>[
-        const Divider(color: Colors.black),
+        Divider(color: colorScheme.outline),
         const SizedBox(height: 10),
-        const Row(
+        Row(
           children: <Widget>[
-            SizedBox(width: 27),
-            Text('Settings', style: TextStyle(fontSize: 16)),
+            const SizedBox(width: 27),
+            Text(
+              'Settings',
+              style: TextStyle(fontSize: 16, color: colorScheme.onSurface),
+            ),
           ],
         ),
         const SizedBox(height: 10),
@@ -77,12 +81,19 @@ class _MyHomePageState extends ConsumerState<RootAdaptiveScreen> {
               onPressed: () {
                 context.router.push(ThemeSettingsRoute());
               },
-              icon: const Icon(Icons.folder_copy_outlined),
+              icon: Icon(
+                Icons.folder_copy_outlined,
+                color: colorScheme.primary,
+              ),
               iconSize: 21,
             ),
             const SizedBox(width: 21),
-            const Flexible(
-              child: Text('Freelance', overflow: TextOverflow.ellipsis),
+            Flexible(
+              child: Text(
+                'Freelance',
+                style: TextStyle(color: colorScheme.onSurface),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),
@@ -162,8 +173,11 @@ class _MyHomePageState extends ConsumerState<RootAdaptiveScreen> {
                       leading: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
-                          Text('REPLY', style: headerColor),
-                          const Icon(Icons.menu_open),
+                          Text(
+                            'REPLY',
+                            style: TextStyle(color: colorScheme.primary),
+                          ),
+                          Icon(Icons.menu_open, color: colorScheme.primary),
                         ],
                       ),
                       destinations:

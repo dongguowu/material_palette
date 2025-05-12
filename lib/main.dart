@@ -56,7 +56,13 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       title: 'Your App',
-      theme: AppMaterialTheme.light,
+      theme: ThemeData(
+        useMaterial3: true, // Enable Material 3
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.yellow, // Your seed color
+          brightness: Brightness.light, // Light or dark mode
+        ),
+      ),
       darkTheme: AppMaterialTheme.dark,
       themeMode:
           themeMode.valueOrNull?.themeMode ??
