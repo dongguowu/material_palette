@@ -1,0 +1,356 @@
+// Flutter App Expert .cursorrules
+// Flexibility Notice
+
+// Note: This is a recommended project structure, but be flexible and adapt to existing project structures.
+// Do not enforce these structural patterns if the project follows a different organization.
+// Focus on maintaining consistency with the existing project architecture while applying Flutter best practices.
+
+// Flutter Best Practices
+
+const flutterBestPractices = [
+    "Adapt to existing project architecture while maintaining clean code principles",
+    "Use Flutter 3.x features and Material 3 design",
+    "Implement clean architecture with separation of concerns (data, domain, UI layers)",
+    "Follow proper state management principles using Riverpod (V2.6.1)  ",
+    "Use proper dependency injection with GetIt or Riverpod",
+    "Implement proper error handling with Either type or AsyncValue",
+    "Follow platform-specific design guidelines for iOS and Android",
+    "Use proper localization techniques with flutter_localizations",
+    "Write comprehensive documentation with Dart doc comments",
+    "Optimize for performance and accessibility",
+];
+
+// Project Structure
+
+// Feature-Based Folder Structure: group related files by features to enhance modularity and reusability.
+
+const projectStructure = `
+lib/
+  app/
+    app_layout/       // Layout templates and responsive design
+    app_router/       // Navigation and routing configuration
+    app_logger/       // Logging infrastructure
+    app_themes/       // Theme data and styling
+    app_settings/     // Application-wide settings
+  core/
+    constants/        // App-wide constants
+    utils/            // Utility functions and extensions
+    widgets/          // Reusable widgets
+  debug/              // Debug tools and configurations
+  features/           // Feature modules
+    feature_name/
+      data/           // Data sources, repositories implementations, DTOs
+      domain/         // Entities, repository interfaces, use cases
+      ui/             // UI components
+        notifiers/    // State management (Riverpod)
+        pages/        // Screen components
+        widgets/      // Feature-specific widgets
+  model/              // Shared models across features
+  main.dart           // Application entry point
+test/
+  features/           // Tests organized by feature
+    feature_name/
+      data/           // Repository and data source tests
+      domain/         // Use case and entity tests
+      ui/             // UI and state management tests
+  integration/        // End-to-end tests
+  mocks/              // Mock implementations for testing
+`;
+
+// Coding Guidelines
+
+const codingGuidelines = `
+1. Use proper null safety practices with non-nullable types by default
+2. Implement error handling with Either<Error, Success> or AsyncValue pattern
+3. Follow consistent naming conventions (camelCase for variables, PascalCase for classes)
+4. Use proper widget composition with small, focused widgets
+5. Implement routing using AutoRoute or GoRouter with proper route guards
+6. Use form validation with FormBuilders or custom validators
+7. Follow proper state management with Riverpod or BLoC
+8. Implement dependency injection using GetIt or Riverpod providers
+9. Use proper asset management with generated R classes
+10. Follow TDD practices with comprehensive test coverage
+11. Use immutable data models with Freezed or built_value
+12. Implement proper logging with structured logging patterns
+13. Use extension methods for cleaner code
+14. Follow consistent error handling patterns across the app
+15. Document public APIs with Dart doc comments
+`;
+
+// Widget Guidelines
+
+const widgetGuidelines = `
+1. Keep widgets small, focused, and single-responsibility
+2. Use const constructors whenever possible for performance
+3. Implement proper widget keys for stateful widgets and lists
+4. Follow proper layout principles (avoid deep nesting, use layout widgets)
+5. Use proper widget lifecycle methods and dispose resources
+6. Implement error boundaries with ErrorWidget.builder
+7. Use proper performance optimization (const, RepaintBoundary, etc.)
+8. Follow accessibility guidelines with semantics and sufficient contrast
+9. Separate business logic from UI components
+10. Use proper theming with ThemeData and theme extensions
+11. Implement responsive layouts with LayoutBuilder or MediaQuery
+12. Use proper text scaling with MediaQuery.textScalerOf
+13. Follow platform-specific design patterns when appropriate
+14. Implement proper loading and error states
+15. Use proper animation patterns with AnimationController
+`;
+
+// Performance Guidelines
+
+const performanceGuidelines = `
+1. Use proper image caching and optimization with cached_network_image
+2. Implement list view optimization with ListView.builder and keys
+3. Optimize build methods by minimizing rebuilds
+4. Follow proper state management to prevent unnecessary rebuilds
+5. Implement proper memory management and resource disposal
+6. Use platform channels efficiently for native functionality
+7. Follow proper compilation optimization with tree-shaking
+8. Use const constructors for static widgets
+9. Implement proper pagination for large data sets
+10. Use compute() for expensive operations
+11. Optimize startup time with deferred loading
+12. Implement proper asset optimization (size, format)
+13. Use DevTools for performance profiling
+14. Minimize shader compilation jank with shader warming
+15. Implement proper caching strategies for network requests
+`;
+
+// Testing Guidelines
+
+const testingGuidelines = `
+1. Write unit tests for business logic and repositories
+2. Implement widget tests for UI components with WidgetTester
+3. Use integration tests for feature testing with integration_test
+4. Implement proper mocking strategies with Mockito or MockBuilder
+5. Use proper test coverage tools and aim for high coverage
+6. Follow proper test naming conventions (given_when_then or arrange_act_assert)
+7. Implement proper CI/CD testing with GitHub Actions or similar
+8. Use golden tests for UI regression testing
+9. Implement proper test fixtures and factories
+10. Test error cases and edge conditions
+11. Use parameterized tests for multiple test cases
+12. Implement proper test documentation
+13. Use proper test doubles (mocks, stubs, fakes)
+14. Test accessibility with semantics testing
+15. Implement proper test isolation and cleanup
+`;
+
+// Test Numbering Convention
+
+const testNumberingConvention = `
+// Use a hierarchical numbering system for tests to improve organization and searchability:
+
+1. Group numbering: Use #N000 format for test groups
+   - #1000: Construction and initialization tests
+   - #2000: Common operations and functionality tests
+   - #3000: Edge cases and error handling tests
+   - #4000: Performance and optimization tests
+   - #5000: Integration with other components
+   - #6000: Boundary tests and validation
+   - #7000: Regression tests
+   - #8000: Platform-specific tests
+   - #9000: Miscellaneous tests
+
+2. Test numbering: Use #N0XX format for individual tests
+   - First digit matches the group number
+   - Last two digits provide sequential numbering within the group
+   - Example: #1011, #1012, #1013 for the first three tests in group #1000
+
+3. Subgroup numbering: Use #NN00 format for subgroups
+   - First digit matches the main group
+   - Second digit indicates the subgroup
+   - Example: #1100, #1200 for subgroups within group #1000
+`;
+
+// Test Description Guidelines
+
+const testDescriptionGuidelines = `
+// Use clear, consistent test descriptions that communicate purpose and expectations:
+
+1. Test naming pattern: '#NNXX should [expected behavior] when [condition]'
+   - Include the test number at the beginning for easy reference
+   - Clearly state what the test is verifying
+   - Example: '#1011 should initialize with default values when no parameters provided'
+
+2. Test structure:
+   - Use 'Given/When/Then' or 'Arrange/Act/Assert' comments to structure test body
+   - Example:
+     ```dart
+     test('#2011 should update temperature when increase button pressed', () {
+       // Given: A temperature controller with initial value
+       final controller = TemperatureController(initialValue: 20.0);
+       
+       // When: Increase button is pressed
+       controller.increaseTemperature();
+       
+       // Then: Temperature should be increased by 1.0
+       expect(controller.temperature, 21.0);
+     });
+     ```
+
+3. Test grouping:
+   - Group related tests with descriptive group names
+   - Use the same numbering convention for groups
+   - Example: 'group('#2000 Temperature Updates', () { ... })'
+
+4. Edge case documentation:
+   - Clearly document the edge case being tested
+   - Explain why the test is important
+   - Example: '#3011 should handle negative temperatures without errors'
+
+5. Assertion clarity:
+   - Use descriptive matchers that explain the expectation
+   - Include failure messages for complex assertions
+   - Example: 'expect(result, isNotNull, reason: "Result should never be null after initialization")'
+`;
+
+// Mock Generation Guidelines
+
+const mockGenerationGuidelines = `
+// Use consistent patterns for mock generation and usage:
+
+1. Use @GenerateMocks annotation with Mockito:
+   ```dart
+   @GenerateMocks([Repository, Service])
+   void main() {
+     // Test code using MockRepository and MockService
+   }
+   ```
+
+2. Create fake implementations for complex dependencies:
+   ```dart
+   class FakeNotifier extends StateNotifier<State> {
+     bool methodCalled = false;
+     
+     @override
+     void someMethod() {
+       methodCalled = true;
+     }
+   }
+   ```
+
+3. Use provideDummy for Either types:
+   ```dart
+   provideDummy<Either<String, Result>>(Right(Result()));
+   provideDummy<Either<String, Result>>(Left('Error message'));
+   ```
+
+4. Override providers in tests:
+   ```dart
+   final container = ProviderContainer(
+     overrides: [
+       repositoryProvider.overrideWithValue(mockRepository),
+     ],
+   );
+   ```
+
+5. Verify interactions with mocks:
+   ```dart
+   verify(mockRepository.getData()).called(1);
+   ```
+`;
+
+// Test Helper Functions Guidelines
+
+const testHelperFunctionsGuidelines = `
+// Implement consistent test helper functions to reduce duplication:
+
+1. Create setup helpers:
+   ```dart
+   ProviderContainer makeProviderContainer({
+     bool throwOnBuild = false,
+   }) {
+     final container = ProviderContainer(
+       overrides: [
+         someProvider.overrideWith(
+           () => FakeImplementation(throwOnBuild: throwOnBuild),
+         ),
+       ],
+     );
+     addTearDown(container.dispose);
+     return container;
+   }
+   ```
+
+2. Create data generators:
+   ```dart
+   class TestUtils {
+     static AppSettings generateRandomSettings() {
+       return AppSettings(
+         version: currentVersion,
+         isDarkModeEnabled: Random().nextBool(),
+       );
+     }
+   }
+   ```
+
+3. Create assertion helpers:
+   ```dart
+   void expectValidTemperature(Temperature temperature) {
+     expect(temperature.reading, greaterThan(-273.15));
+     expect(temperature.reading, lessThan(1000));
+   }
+   ```
+
+4. Create common setup and teardown functions:
+   ```dart
+   void setupDependencies() {
+     getIt.registerLazySingleton<AppLogger>(() => LoggerImpl());
+   }
+   
+   void tearDownDependencies() {
+     getIt.reset();
+   }
+   ```
+
+5. Create test data constants:
+   ```dart
+   // Common test data
+   const validSensorId = 'temp1';
+   const validSensorType = 'temperature';
+   const validValue = 22.5;
+   const validUnit = '°C';
+   ```
+`;
+
+// Documentation Guidelines
+
+const documentationGuidelines = `
+1. Use proper Dart doc comments for public APIs
+2. Document class purpose and responsibilities
+3. Document parameters and return values
+4. Include examples in documentation when helpful
+5. Document state management patterns
+6. Maintain up-to-date README with setup instructions
+7. Document architecture decisions and patterns
+8. Use diagrams for complex flows
+9. Document known limitations and edge cases
+10. Maintain a changelog for version history
+11. Document testing strategies
+12. Use consistent documentation style
+13. Document third-party dependencies and licenses
+14. Include troubleshooting guides for common issues
+15. Document accessibility features and considerations
+`;
+
+// Riverpod Guidelines
+
+const riverpodGuidelines = `
+1. Use @riverpod annotation for code generation
+2. Implement proper error handling with AsyncValue
+3. Use ref.watch() for reactive dependencies
+4. Use ref.read() for one-time reads
+5. Implement proper provider organization by feature
+6. Use family modifiers for parameterized providers
+7. Implement proper provider disposal with ref.onDispose
+8. Use autoDispose for temporary state
+9. Implement proper caching strategies
+10. Use ConsumerWidget and ConsumerStatefulWidget
+11. Implement proper loading and error UI states
+12. Use select() for fine-grained rebuilds
+13. Follow proper testing patterns for providers
+14. Use provider overrides for testing
+15. Implement proper provider dependencies
+`;
