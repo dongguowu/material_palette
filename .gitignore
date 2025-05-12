@@ -49,17 +49,16 @@ app.*.map.json
 # macOS
 /macos/Flutter/
 
+# Ios
+/ios/Flutter
+/ios/Runner
+
 # Linux
 /linux/flutter/
 
 # Windows
 /windows/Flutter/
 
-macos/Flutter/GeneratedPluginRegistrant.swift
-windows/flutter/generated_plugin_registrant.cc
-windows/flutter/generated_plugins.cmake
-
-pubspec.lock
 
 # Flutter test -- coverage
 /coverage/
