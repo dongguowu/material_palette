@@ -8,7 +8,7 @@ class RootHelper {
 
   static List<PageRouteInfo<Object?>> routes = [
     const HomeRoute(), // 0
-    const HomeRoute(), // 0
+    const SeedColorGeneratorRoute(), // 0
     const ColorHelperRoute(), // 0
     const AboutRoute(), // 0
     // TemperatureHistoryRoute(vehicleId: '123'), // 2

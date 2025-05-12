@@ -24,6 +24,11 @@ class AppRouter extends RootStackRouter {
       initial: true,
       children: [
         AutoRoute(page: HomeRoute.page, path: 'home', initial: true),
+        AutoRoute(
+          page: SeedColorGeneratorRoute.page,
+          path: 'seed-color-generator',
+          initial: false,
+        ),
         AutoRoute(page: ColorHelperRoute.page, path: 'helper', initial: false),
         AutoRoute(page: AboutRoute.page, path: 'about', initial: false),
       ],

@@ -9,8 +9,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i8;
-import 'package:flutter/material.dart' as _i9;
+import 'package:auto_route/auto_route.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:material_palette/features/app/app_about/app_about.dart' as _i1;
 import 'package:material_palette/features/app/app_layout/root_screen_adaptive_layout.dart'
     as _i6;
@@ -19,20 +19,22 @@ import 'package:material_palette/features/app/app_pages/navigation_error_page.da
 import 'package:material_palette/features/app/app_pages/not_found_page.dart'
     as _i4;
 import 'package:material_palette/features/app/app_themes/ui/dark_switch_page.dart'
-    as _i7;
+    as _i8;
 import 'package:material_palette/features/palette/ui/material_3_color_helper_page.dart'
     as _i2;
 import 'package:material_palette/features/palette/ui/palette_page.dart' as _i5;
+import 'package:material_palette/features/palette/ui/seed_color_generator_page.dart'
+    as _i7;
 
 /// generated route for
 /// [_i1.AboutPage]
-class AboutRoute extends _i8.PageRouteInfo<void> {
-  const AboutRoute({List<_i8.PageRouteInfo>? children})
+class AboutRoute extends _i9.PageRouteInfo<void> {
+  const AboutRoute({List<_i9.PageRouteInfo>? children})
     : super(AboutRoute.name, initialChildren: children);
 
   static const String name = 'AboutRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       return const _i1.AboutPage();
@@ -42,13 +44,13 @@ class AboutRoute extends _i8.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.Material3ColorHelperPage]
-class ColorHelperRoute extends _i8.PageRouteInfo<void> {
-  const ColorHelperRoute({List<_i8.PageRouteInfo>? children})
+class ColorHelperRoute extends _i9.PageRouteInfo<void> {
+  const ColorHelperRoute({List<_i9.PageRouteInfo>? children})
     : super(ColorHelperRoute.name, initialChildren: children);
 
   static const String name = 'ColorHelperRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       return const _i2.Material3ColorHelperPage();
@@ -58,11 +60,11 @@ class ColorHelperRoute extends _i8.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.NavigationErrorPage]
-class NavigationErrorRoute extends _i8.PageRouteInfo<NavigationErrorRouteArgs> {
+class NavigationErrorRoute extends _i9.PageRouteInfo<NavigationErrorRouteArgs> {
   NavigationErrorRoute({
-    _i9.Key? key,
+    _i10.Key? key,
     String errorMessage = "An unknown error occurred.",
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
          NavigationErrorRoute.name,
          args: NavigationErrorRouteArgs(key: key, errorMessage: errorMessage),
@@ -71,7 +73,7 @@ class NavigationErrorRoute extends _i8.PageRouteInfo<NavigationErrorRouteArgs> {
 
   static const String name = 'NavigationErrorRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<NavigationErrorRouteArgs>(
@@ -91,7 +93,7 @@ class NavigationErrorRouteArgs {
     this.errorMessage = "An unknown error occurred.",
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final String errorMessage;
 
@@ -103,13 +105,13 @@ class NavigationErrorRouteArgs {
 
 /// generated route for
 /// [_i4.NotFoundPage]
-class NotFoundRoute extends _i8.PageRouteInfo<void> {
-  const NotFoundRoute({List<_i8.PageRouteInfo>? children})
+class NotFoundRoute extends _i9.PageRouteInfo<void> {
+  const NotFoundRoute({List<_i9.PageRouteInfo>? children})
     : super(NotFoundRoute.name, initialChildren: children);
 
   static const String name = 'NotFoundRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       return const _i4.NotFoundPage();
@@ -119,13 +121,13 @@ class NotFoundRoute extends _i8.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.PalettePage]
-class HomeRoute extends _i8.PageRouteInfo<void> {
-  const HomeRoute({List<_i8.PageRouteInfo>? children})
+class HomeRoute extends _i9.PageRouteInfo<void> {
+  const HomeRoute({List<_i9.PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       return const _i5.PalettePage();
@@ -136,11 +138,11 @@ class HomeRoute extends _i8.PageRouteInfo<void> {
 /// generated route for
 /// [_i6.RootAdaptiveScreen]
 class RootAdaptiveScreenRoute
-    extends _i8.PageRouteInfo<RootAdaptiveScreenRouteArgs> {
+    extends _i9.PageRouteInfo<RootAdaptiveScreenRouteArgs> {
   RootAdaptiveScreenRoute({
-    _i9.Key? key,
+    _i10.Key? key,
     int transitionDuration = 1000,
-    List<_i8.PageRouteInfo>? children,
+    List<_i9.PageRouteInfo>? children,
   }) : super(
          RootAdaptiveScreenRoute.name,
          args: RootAdaptiveScreenRouteArgs(
@@ -152,7 +154,7 @@ class RootAdaptiveScreenRoute
 
   static const String name = 'RootAdaptiveScreenRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<RootAdaptiveScreenRouteArgs>(
@@ -169,7 +171,7 @@ class RootAdaptiveScreenRoute
 class RootAdaptiveScreenRouteArgs {
   const RootAdaptiveScreenRouteArgs({this.key, this.transitionDuration = 1000});
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final int transitionDuration;
 
@@ -180,17 +182,33 @@ class RootAdaptiveScreenRouteArgs {
 }
 
 /// generated route for
-/// [_i7.ThemeSettingsScreen]
-class ThemeSettingsRoute extends _i8.PageRouteInfo<void> {
-  const ThemeSettingsRoute({List<_i8.PageRouteInfo>? children})
+/// [_i7.SeedColorGeneratorPage]
+class SeedColorGeneratorRoute extends _i9.PageRouteInfo<void> {
+  const SeedColorGeneratorRoute({List<_i9.PageRouteInfo>? children})
+    : super(SeedColorGeneratorRoute.name, initialChildren: children);
+
+  static const String name = 'SeedColorGeneratorRoute';
+
+  static _i9.PageInfo page = _i9.PageInfo(
+    name,
+    builder: (data) {
+      return const _i7.SeedColorGeneratorPage();
+    },
+  );
+}
+
+/// generated route for
+/// [_i8.ThemeSettingsScreen]
+class ThemeSettingsRoute extends _i9.PageRouteInfo<void> {
+  const ThemeSettingsRoute({List<_i9.PageRouteInfo>? children})
     : super(ThemeSettingsRoute.name, initialChildren: children);
 
   static const String name = 'ThemeSettingsRoute';
 
-  static _i8.PageInfo page = _i8.PageInfo(
+  static _i9.PageInfo page = _i9.PageInfo(
     name,
     builder: (data) {
-      return const _i7.ThemeSettingsScreen();
+      return const _i8.ThemeSettingsScreen();
     },
   );
 }
