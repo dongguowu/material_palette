@@ -10,7 +10,7 @@ class RootHelper {
     const HomeRoute(), // 0
     const HomeRoute(), // 0
     const HomeRoute(), // 0
-    const HomeRoute(), // 0
+    const AboutRoute(), // 0
     // TemperatureHistoryRoute(vehicleId: '123'), // 2
     // SensorDataRoute(), // 2
     // const MarkerListRoute(), // 2.1

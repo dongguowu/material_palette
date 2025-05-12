@@ -7,7 +7,7 @@ import '../app_router/app_router.gr.dart';
 import 'root_screen_helper.dart';
 import 'active_tab_notifier.dart';
 
-@RoutePage(name: 'RootAdaptiveScreen')
+@RoutePage(name: 'RootAdaptiveScreenRoute')
 class RootAdaptiveScreen extends ConsumerStatefulWidget {
   /// Creates a const [RootAdaptiveScreen].
   const RootAdaptiveScreen({super.key, this.transitionDuration = 1000});
