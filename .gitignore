@@ -51,7 +51,7 @@ app.*.map.json
 
 # Ios
 /ios/Flutter
-/ios/Runner
+# /ios/Runner
 
 # Linux
 /linux/flutter/
