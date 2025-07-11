@@ -1,0 +1,51 @@
+// Quick Test Commands for Material Palette
+// Copy and paste these commands in your terminal
+
+// 🧪 ALL TESTS
+flutter test
+
+// 📊 WITH COVERAGE
+flutter test --coverage
+
+// 🎯 SPECIFIC TEST FILES
+
+// State Management Tests
+flutter test test/features/app/app_color/app_color_seed_notifier_test.dart
+
+// UI Widget Tests  
+flutter test test/features/palette/ui/seed_color_generator_test.dart
+
+// Utility Function Tests
+flutter test test/features/palette/ui/color_button_utils_test.dart
+
+// Basic Sample Test
+flutter test test/sample_test.dart
+
+// 🔍 SPECIFIC TEST GROUPS
+
+// Mode toggle tests
+flutter test --plain-name "mode toggle"
+
+// Color selection tests
+flutter test --plain-name "Color Selection"
+
+// Hex display tests
+flutter test --plain-name "hex color"
+
+// Contrast calculation tests
+flutter test --plain-name "Contrast Color"
+
+// 🚀 CUSTOM SCRIPTS
+
+// Run our comprehensive test script
+./run_tests.sh
+
+// Run diagnostic checks
+./diagnostic.sh
+
+// 📋 EXPECTED RESULTS
+// ✅ All tests should pass
+// ✅ 50+ individual test cases
+// ✅ State management working
+// ✅ UI interactions functional
+// ✅ Color calculations accurate
