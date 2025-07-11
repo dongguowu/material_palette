@@ -290,6 +290,7 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
+      key: ValueKey('seed_generator_${_isSeedMode}'), // Add unique key for rebuild
       appBar: AppBar(
         title: Text(_isSeedMode ? 'Color Seed Generator' : 'Primary Color Selector'),
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -310,8 +311,6 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
                 _isSeedMode = !_isSeedMode;
                 _selectedPrimaryColor = null;
               });
-              // Add a debug print to verify the toggle is working
-              print('Mode toggled to: ${_isSeedMode ? "Seed Mode" : "Primary Mode"}');
             },
             tooltip: _isSeedMode ? 'Switch to Primary Mode' : 'Switch to Seed Mode',
           ),
@@ -321,6 +320,7 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
         children: [
           // Mode Toggle Card
           Card(
+            key: ValueKey('mode_card_${_isSeedMode}'),
             margin: const EdgeInsets.all(16),
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -334,7 +334,7 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        '${_isSeedMode ? 'Seed Color Mode' : 'Primary Color Mode'} (Debug: $_isSeedMode)',
+                        _isSeedMode ? 'Seed Color Mode' : 'Primary Color Mode',
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: colorScheme.primary,
                               fontWeight: FontWeight.bold,
