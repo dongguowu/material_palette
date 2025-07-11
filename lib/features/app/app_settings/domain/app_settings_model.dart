@@ -31,7 +31,7 @@ const defaultValue = AppSettings(
     version: currentVersion,
     isDarkModeEnabled: false,
     selectedMarkerIndex: 0,
-    selectedPageIndex: -1);
+    selectedPageIndex: 0);
 
 /// Represents the application settings model with versioning support and compile-time validation.
 ///

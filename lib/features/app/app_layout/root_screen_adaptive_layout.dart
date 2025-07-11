@@ -228,7 +228,7 @@ class _MyHomePageState extends ConsumerState<RootAdaptiveScreen> {
             config: <Breakpoint, SlotLayoutConfig>{
               Breakpoints.smallAndUp: SlotLayout.from(
                 key: const Key('Body Small'),
-                builder: activeTabIndex == 3 ? (_) => (child) : (_) => (child),
+                builder: (_) => child,
               ),
               Breakpoints.mediumLargeAndUp: SlotLayout.from(
                 key: const Key('Body MediumLarge'),
@@ -245,12 +245,9 @@ class _MyHomePageState extends ConsumerState<RootAdaptiveScreen> {
             config: <Breakpoint, SlotLayoutConfig>{
               Breakpoints.mediumLargeAndUp: SlotLayout.from(
                 key: const Key('Secondary Body Medium'),
-                builder:
-                    activeTabIndex == 3
-                        ? (_) => Flexible(
-                          child: child, // Ensure it adjusts to remaining space
-                        )
-                        : null,
+                builder: (_) => Flexible(
+                  child: child,
+                ),
               ),
             },
           ),
