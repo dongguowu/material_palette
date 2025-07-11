@@ -20,6 +20,7 @@ class ColorSeedNotifier extends _$ColorSeedNotifier {
   /// Updates the color seed to a new value.
   /// This will trigger a rebuild of any widgets watching this provider.
   void updateColorSeed(Color newColor) {
+    log(newColor.toString());
     state = newColor;
   }
 
