@@ -175,17 +175,19 @@ void main() {
         ),
       );
       
-      // Capture initial color grid state by finding color buttons
-      final initialColorButtons = tester.widgetList(find.byType(Material));
-      final initialColorCount = initialColorButtons.length;
+      // Capture initial hex color texts in the grid
+      final initialHexTexts = find.textContaining('#');
+      final initialHexCount = tester.widgetList<Text>(initialHexTexts).length;
       
       // Act - Tap shuffle button in app bar
       await tester.tap(find.byIcon(Icons.shuffle));
       await tester.pump();
       
-      // Assert - Grid should still have the same number of colors (18)
-      final newColorButtons = tester.widgetList(find.byType(Material));
-      expect(newColorButtons.length, equals(initialColorCount));
+      // Assert - Should still have the same number of hex texts (18 color buttons)
+      final newHexTexts = find.textContaining('#');
+      final newHexCount = tester.widgetList<Text>(newHexTexts).length;
+      expect(newHexCount, equals(initialHexCount));
+      expect(newHexCount, greaterThanOrEqualTo(18)); // At least 18 color buttons
       
       // Note: Since colors are randomized, we can't test exact color changes
       // but we can verify the grid structure remains consistent
@@ -206,8 +208,8 @@ void main() {
       await tester.tap(find.text('Reset'));
       await tester.pump();
       
-      // Assert - Should show default blue color hex
-      expect(find.textContaining('FF2196F3FF'), findsOneWidget); // Blue color hex
+      // Assert - Should show default blue color hex (RGB format)
+      expect(find.textContaining('#2196F3'), findsOneWidget); // Blue color hex
     });
 
     testWidgets('should display hex color text on each color button', (WidgetTester tester) async {
@@ -226,7 +228,15 @@ void main() {
       
       // Verify that multiple hex texts are displayed (should be 18)
       final hexTexts = find.textContaining('#');
-      expect(hexTexts.evaluate().length, greaterThan(10)); // At least most of the 18 colors
+      final hexCount = tester.widgetList<Text>(hexTexts).length;
+      
+      // We expect exactly 18 hex texts from the color buttons
+      // (there might be other # texts from current color display, but at least 18)
+      expect(hexCount, greaterThanOrEqualTo(18));
+      
+      // Verify hex format (should be #RRGGBB)
+      final firstHexWidget = tester.widget<Text>(hexTexts.first);
+      expect(firstHexWidget.data, matches(r'^#[0-9A-F]{6}$'));
     });
 
     testWidgets('should show hex text in readable contrast color', (WidgetTester tester) async {
@@ -291,7 +301,7 @@ void main() {
         await tester.pump();
         
         // Assert - Color should be selected (check for checkmark icon)
-        expect(find.byIcon(Icons.check), findsOneWidget);
+        expect(find.byIcon(Icons.check_circle), findsOneWidget);
       });
 
       testWidgets('should handle random color selection', (WidgetTester tester) async {
