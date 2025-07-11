@@ -7,24 +7,27 @@ import '../../app/app_color/app_color_seed_notifier.dart';
 /// A page that allows users to generate and select color seeds for the app's theme.
 ///
 /// This page provides multiple ways to select a color:
-/// * A grid of predefined Material Design colors
+/// * A grid of dynamically generated colors from an expanded palette
 /// * A color picker for custom color selection
 /// * A text input for custom hex color values
-/// * A random color generator
+/// * A random color generator that shuffles the grid
 /// * A reset option to return to the default color
 ///
 /// The selected color is managed by [ColorSeedNotifier] and will affect the app's
 /// theme throughout the application.
 @RoutePage(name: 'SeedColorGeneratorRoute')
-class SeedColorGeneratorPage extends ConsumerWidget {
+class SeedColorGeneratorPage extends ConsumerStatefulWidget {
   /// Creates a [SeedColorGeneratorPage].
   const SeedColorGeneratorPage({super.key});
 
-  /// A list of predefined Material Design colors available for selection.
-  ///
-  /// These colors are used to generate the color grid and serve as options
-  /// for the random color generator.
-  static const List<MaterialColor> materialColors = [
+  @override
+  ConsumerState<SeedColorGeneratorPage> createState() => _SeedColorGeneratorPageState();
+}
+
+class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage> {
+  /// Extended color palette for more variety
+  static const List<Color> _extendedColorPalette = [
+    // Original Material Colors
     Colors.red,
     Colors.pink,
     Colors.purple,
@@ -43,7 +46,100 @@ class SeedColorGeneratorPage extends ConsumerWidget {
     Colors.deepOrange,
     Colors.brown,
     Colors.blueGrey,
+    
+    // Extended color variations
+    Color(0xFF8E24AA), // Purple 600
+    Color(0xFF5E35B1), // Deep Purple 600
+    Color(0xFF3949AB), // Indigo 600
+    Color(0xFF1E88E5), // Blue 600
+    Color(0xFF039BE5), // Light Blue 600
+    Color(0xFF00ACC1), // Cyan 600
+    Color(0xFF00897B), // Teal 600
+    Color(0xFF43A047), // Green 600
+    Color(0xFF7CB342), // Light Green 600
+    Color(0xFFA4C639), // Lime 600
+    Color(0xFFD4E157), // Lime 300
+    Color(0xFFFFEE58), // Yellow 300
+    Color(0xFFFFCA28), // Amber 600
+    Color(0xFFF57C00), // Orange 600
+    Color(0xFFE64A19), // Deep Orange 600
+    Color(0xFF8D6E63), // Brown 600
+    Color(0xFF546E7A), // Blue Grey 600
+    
+    // Additional vibrant colors
+    Color(0xFFFF4081), // Pink A200
+    Color(0xFFE91E63), // Pink 500
+    Color(0xFF9C27B0), // Purple 500
+    Color(0xFF673AB7), // Deep Purple 500
+    Color(0xFF3F51B5), // Indigo 500
+    Color(0xFF2196F3), // Blue 500
+    Color(0xFF03A9F4), // Light Blue 500
+    Color(0xFF00BCD4), // Cyan 500
+    Color(0xFF009688), // Teal 500
+    Color(0xFF4CAF50), // Green 500
+    Color(0xFF8BC34A), // Light Green 500
+    Color(0xFFCDDC39), // Lime 500
+    Color(0xFFFFEB3B), // Yellow 500
+    Color(0xFFFFC107), // Amber 500
+    Color(0xFFFF9800), // Orange 500
+    Color(0xFFFF5722), // Deep Orange 500
+    Color(0xFF795548), // Brown 500
+    Color(0xFF607D8B), // Blue Grey 500
+    
+    // Softer tones
+    Color(0xFFF8BBD9), // Pink 100
+    Color(0xFFE1BEE7), // Purple 100
+    Color(0xFFD1C4E9), // Deep Purple 100
+    Color(0xFFC5CAE9), // Indigo 100
+    Color(0xFFBBDEFB), // Blue 100
+    Color(0xFFB3E5FC), // Light Blue 100
+    Color(0xFFB2EBF2), // Cyan 100
+    Color(0xFFB2DFDB), // Teal 100
+    Color(0xFFC8E6C9), // Green 100
+    Color(0xFFDCEDC8), // Light Green 100
+    Color(0xFFF0F4C3), // Lime 100
+    Color(0xFFFFF9C4), // Yellow 100
+    Color(0xFFFFECB3), // Amber 100
+    Color(0xFFFFE0B2), // Orange 100
+    Color(0xFFFFCCBC), // Deep Orange 100
+    Color(0xFFD7CCC8), // Brown 100
+    Color(0xFFCFD8DC), // Blue Grey 100
+    
+    // Darker tones
+    Color(0xFFAD1457), // Pink 800
+    Color(0xFF6A1B9A), // Purple 800
+    Color(0xFF4527A0), // Deep Purple 800
+    Color(0xFF283593), // Indigo 800
+    Color(0xFF1565C0), // Blue 800
+    Color(0xFF0277BD), // Light Blue 800
+    Color(0xFF00838F), // Cyan 800
+    Color(0xFF00695C), // Teal 800
+    Color(0xFF2E7D32), // Green 800
+    Color(0xFF558B2F), // Light Green 800
+    Color(0xFF9E9D24), // Lime 800
+    Color(0xFFF9A825), // Yellow 800
+    Color(0xFFFF8F00), // Amber 800
+    Color(0xFFEF6C00), // Orange 800
+    Color(0xFFD84315), // Deep Orange 800
+    Color(0xFF5D4037), // Brown 800
+    Color(0xFF455A64), // Blue Grey 800
   ];
+
+  /// Current display colors (18 colors shown in grid)
+  late List<Color> _displayColors;
+
+  @override
+  void initState() {
+    super.initState();
+    _shuffleColors();
+  }
+
+  /// Shuffles the colors to display 18 random colors from the extended palette
+  void _shuffleColors() {
+    final shuffled = List<Color>.from(_extendedColorPalette);
+    shuffled.shuffle();
+    _displayColors = shuffled.take(18).toList();
+  }
 
   /// Shows a color picker dialog for custom color selection.
   ///
@@ -158,13 +254,24 @@ class SeedColorGeneratorPage extends ConsumerWidget {
   }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final currentColor = ref.watch(colorSeedNotifierProvider);
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Color Seed Generator'),
         backgroundColor: Theme.of(context).colorScheme.surface,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.shuffle),
+            onPressed: () {
+              setState(() {
+                _shuffleColors();
+              });
+            },
+            tooltip: 'Shuffle Colors',
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -187,9 +294,9 @@ class SeedColorGeneratorPage extends ConsumerWidget {
                 crossAxisSpacing: 8,
                 mainAxisSpacing: 8,
               ),
-              itemCount: materialColors.length,
+              itemCount: _displayColors.length,
               itemBuilder: (context, index) {
-                final color = materialColors[index];
+                final color = _displayColors[index];
                 final isSelected =
                     currentColor.r.round() == color.r.round() &&
                     currentColor.g.round() == color.g.round() &&
@@ -242,15 +349,24 @@ class SeedColorGeneratorPage extends ConsumerWidget {
                   children: [
                     ElevatedButton.icon(
                       onPressed: () {
-                        final randomColor =
-                            materialColors[DateTime.now().millisecond %
-                                materialColors.length];
+                        final randomColor = _extendedColorPalette[
+                            DateTime.now().millisecondsSinceEpoch %
+                                _extendedColorPalette.length];
                         ref
                             .read(colorSeedNotifierProvider.notifier)
                             .updateColorSeed(randomColor);
                       },
-                      icon: const Icon(Icons.shuffle),
+                      icon: const Icon(Icons.casino),
                       label: const Text('Random'),
+                    ),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        setState(() {
+                          _shuffleColors();
+                        });
+                      },
+                      icon: const Icon(Icons.shuffle),
+                      label: const Text('Shuffle Grid'),
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
@@ -435,7 +551,7 @@ class _ColorWheelPainter extends CustomPainter {
 /// color options in the color grid.
 class _ColorButton extends StatelessWidget {
   /// The color to display in the button.
-  final MaterialColor color;
+  final Color color;
 
   /// Whether this color is currently selected.
   ///
@@ -448,7 +564,7 @@ class _ColorButton extends StatelessWidget {
   /// Creates a [_ColorButton].
   ///
   /// All parameters are required:
-  /// * [color]: The MaterialColor to display
+  /// * [color]: The Color to display
   /// * [isSelected]: Whether this color is currently selected
   /// * [onPressed]: Callback function when the button is pressed
   const _ColorButton({
