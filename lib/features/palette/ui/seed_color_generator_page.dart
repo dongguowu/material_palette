@@ -127,6 +127,12 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
 
   /// Current display colors (18 colors shown in grid)
   late List<Color> _displayColors;
+  
+  /// Mode toggle: true = Seed Mode, false = Primary Mode
+  bool _isSeedMode = true;
+  
+  /// Selected primary color in Primary Mode
+  Color? _selectedPrimaryColor;
 
   @override
   void initState() {
@@ -139,6 +145,31 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
     final shuffled = List<Color>.from(_extendedColorPalette);
     shuffled.shuffle();
     _displayColors = shuffled.take(18).toList();
+  }
+  
+  /// Calculates the optimal seed color from a desired primary color
+  /// In Material 3, this is typically the same color, but we can apply
+  /// slight adjustments for better color scheme generation
+  Color _calculateSeedFromPrimary(Color primaryColor) {
+    // For most cases, the primary color IS the seed color in Material 3
+    // But we can apply slight HSV adjustments for better scheme generation
+    final hsv = HSVColor.fromColor(primaryColor);
+    
+    // Slightly adjust saturation and value for optimal scheme generation
+    final adjustedHsv = hsv.withSaturation(
+      (hsv.saturation * 0.9).clamp(0.3, 1.0),
+    ).withValue(
+      (hsv.value * 0.95).clamp(0.4, 1.0),
+    );
+    
+    return adjustedHsv.toColor();
+  }
+  
+  /// Applies the calculated seed color from primary color selection
+  void _applyPrimaryColorSelection(Color primaryColor) {
+    _selectedPrimaryColor = primaryColor;
+    final seedColor = _calculateSeedFromPrimary(primaryColor);
+    ref.read(colorSeedNotifierProvider.notifier).updateColorSeed(seedColor);
   }
 
   /// Shows a color picker dialog for custom color selection.
@@ -256,10 +287,11 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
   @override
   Widget build(BuildContext context) {
     final currentColor = ref.watch(colorSeedNotifierProvider);
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Color Seed Generator'),
+        title: Text(_isSeedMode ? 'Color Seed Generator' : 'Primary Color Selector'),
         backgroundColor: Theme.of(context).colorScheme.surface,
         actions: [
           IconButton(
@@ -271,21 +303,107 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
             },
             tooltip: 'Shuffle Colors',
           ),
+          IconButton(
+            icon: Icon(_isSeedMode ? Icons.palette : Icons.colorize),
+            onPressed: () {
+              setState(() {
+                _isSeedMode = !_isSeedMode;
+                _selectedPrimaryColor = null;
+              });
+            },
+            tooltip: _isSeedMode ? 'Switch to Primary Mode' : 'Switch to Seed Mode',
+          ),
         ],
       ),
       body: Column(
         children: [
+          // Mode Toggle Card
+          Card(
+            margin: const EdgeInsets.all(16),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        _isSeedMode ? Icons.colorize : Icons.palette,
+                        color: colorScheme.primary,
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        _isSeedMode ? 'Seed Color Mode' : 'Primary Color Mode',
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                              color: colorScheme.primary,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _isSeedMode
+                        ? 'Select a seed color to generate the complete Material 3 color scheme'
+                        : 'Select your desired primary color and we\'ll calculate the optimal seed color',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                  ),
+                  if (!_isSeedMode && _selectedPrimaryColor != null) ...[
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Text('Primary: ', style: Theme.of(context).textTheme.bodyMedium),
+                        Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            color: _selectedPrimaryColor,
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: colorScheme.outline),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Text('→', style: Theme.of(context).textTheme.bodyMedium),
+                        const SizedBox(width: 8),
+                        Text('Seed: ', style: Theme.of(context).textTheme.bodyMedium),
+                        Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            color: currentColor,
+                            borderRadius: BorderRadius.circular(4),
+                            border: Border.all(color: colorScheme.outline),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          
+          // Current Color Display
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
-              'Current Color: #${currentColor.r.round().toRadixString(16).padLeft(2, '0')}'
+              'Current ${_isSeedMode ? 'Seed' : 'Generated'} Color: #${currentColor.r.round().toRadixString(16).padLeft(2, '0')}'
                       '${currentColor.g.round().toRadixString(16).padLeft(2, '0')}'
                       '${currentColor.b.round().toRadixString(16).padLeft(2, '0')}'
                       '${currentColor.a.round().toRadixString(16).padLeft(2, '0')}'
                   .toUpperCase(),
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
           ),
+          
+          // Color Scheme Preview (only in Primary Mode)
+          if (!_isSeedMode) ...[
+            const SizedBox(height: 16),
+            _buildColorSchemePreview(context, colorScheme),
+          ],
+          
+          // Color Grid
           Expanded(
             child: GridView.builder(
               padding: const EdgeInsets.all(16),
@@ -297,30 +415,42 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
               itemCount: _displayColors.length,
               itemBuilder: (context, index) {
                 final color = _displayColors[index];
-                final isSelected =
-                    currentColor.r.round() == color.r.round() &&
-                    currentColor.g.round() == color.g.round() &&
-                    currentColor.b.round() == color.b.round();
+                final isSelected = _isSeedMode
+                    ? (currentColor.r.round() == color.r.round() &&
+                       currentColor.g.round() == color.g.round() &&
+                       currentColor.b.round() == color.b.round())
+                    : (_selectedPrimaryColor != null &&
+                       _selectedPrimaryColor!.r.round() == color.r.round() &&
+                       _selectedPrimaryColor!.g.round() == color.g.round() &&
+                       _selectedPrimaryColor!.b.round() == color.b.round());
 
                 return _ColorButton(
                   color: color,
                   isSelected: isSelected,
                   onPressed: () {
-                    ref
-                        .read(colorSeedNotifierProvider.notifier)
-                        .updateColorSeed(color);
+                    if (_isSeedMode) {
+                      ref
+                          .read(colorSeedNotifierProvider.notifier)
+                          .updateColorSeed(color);
+                    } else {
+                      _applyPrimaryColorSelection(color);
+                    }
                   },
                 );
               },
             ),
           ),
+          
+          // Bottom Controls
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 TextField(
                   decoration: InputDecoration(
-                    labelText: 'Enter hex color (e.g., #FF0000)',
+                    labelText: _isSeedMode 
+                        ? 'Enter hex color (e.g., #FF0000)'
+                        : 'Enter primary color hex (e.g., #FF0000)',
                     border: const OutlineInputBorder(),
                     suffixIcon: IconButton(
                       icon: const Icon(Icons.colorize),
@@ -330,31 +460,47 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
                           currentColor,
                         );
                         if (newColor != null) {
-                          ref
-                              .read(colorSeedNotifierProvider.notifier)
-                              .updateColorSeed(newColor);
+                          if (_isSeedMode) {
+                            ref
+                                .read(colorSeedNotifierProvider.notifier)
+                                .updateColorSeed(newColor);
+                          } else {
+                            _applyPrimaryColorSelection(newColor);
+                          }
                         }
                       },
                     ),
                   ),
                   onSubmitted: (value) {
-                    ref
-                        .read(colorSeedNotifierProvider.notifier)
-                        .updateColorFromString(value);
+                    if (_isSeedMode) {
+                      ref
+                          .read(colorSeedNotifierProvider.notifier)
+                          .updateColorFromString(value);
+                    } else {
+                      final color = _parseColorFromString(value);
+                      if (color != null) {
+                        _applyPrimaryColorSelection(color);
+                      }
+                    }
                   },
                 ),
                 const SizedBox(height: 16),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
                   children: [
                     ElevatedButton.icon(
                       onPressed: () {
                         final randomColor = _extendedColorPalette[
                             DateTime.now().millisecondsSinceEpoch %
                                 _extendedColorPalette.length];
-                        ref
-                            .read(colorSeedNotifierProvider.notifier)
-                            .updateColorSeed(randomColor);
+                        if (_isSeedMode) {
+                          ref
+                              .read(colorSeedNotifierProvider.notifier)
+                              .updateColorSeed(randomColor);
+                        } else {
+                          _applyPrimaryColorSelection(randomColor);
+                        }
                       },
                       icon: const Icon(Icons.casino),
                       label: const Text('Random'),
@@ -370,6 +516,9 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
                     ),
                     ElevatedButton.icon(
                       onPressed: () {
+                        setState(() {
+                          _selectedPrimaryColor = null;
+                        });
                         ref
                             .read(colorSeedNotifierProvider.notifier)
                             .updateColorSeed(
@@ -387,6 +536,76 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
         ],
       ),
     );
+  }
+
+  /// Builds a color scheme preview widget
+  Widget _buildColorSchemePreview(BuildContext context, ColorScheme colorScheme) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: colorScheme.outline),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Generated Color Scheme Preview',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _buildColorPreviewChip('Primary', colorScheme.primary, colorScheme.onPrimary),
+              _buildColorPreviewChip('Secondary', colorScheme.secondary, colorScheme.onSecondary),
+              _buildColorPreviewChip('Tertiary', colorScheme.tertiary, colorScheme.onTertiary),
+              _buildColorPreviewChip('Surface', colorScheme.surface, colorScheme.onSurface),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  /// Builds a small color preview chip
+  Widget _buildColorPreviewChip(String label, Color color, Color onColor) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Text(
+        label,
+        style: TextStyle(
+          color: onColor,
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
+      ),
+    );
+  }
+
+  /// Parses a color string to Color object (helper method)
+  Color? _parseColorFromString(String colorString) {
+    final hexString = colorString.replaceFirst('#', '');
+    try {
+      if (hexString.length == 6) {
+        return Color(int.parse('FF$hexString', radix: 16));
+      } else if (hexString.length == 8) {
+        return Color(int.parse(hexString, radix: 16));
+      }
+    } catch (e) {
+      // Invalid color string
+    }
+    return null;
   }
 }
 
