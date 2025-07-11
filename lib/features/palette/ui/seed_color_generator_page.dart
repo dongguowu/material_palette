@@ -794,8 +794,29 @@ class _ColorButton extends StatelessWidget {
     required this.onPressed,
   });
 
+  /// Determines the best contrast color (black or white) for text on the given background color
+  Color _getContrastColor(Color backgroundColor) {
+    // Calculate relative luminance using W3C formula
+    final luminance = (0.299 * backgroundColor.red + 
+                     0.587 * backgroundColor.green + 
+                     0.114 * backgroundColor.blue) / 255;
+    
+    // Return black for light backgrounds, white for dark backgrounds
+    return luminance > 0.5 ? Colors.black : Colors.white;
+  }
+  
+  /// Converts color to hex string
+  String _colorToHex(Color color) {
+    return '#${color.red.toRadixString(16).padLeft(2, '0')}'
+           '${color.green.toRadixString(16).padLeft(2, '0')}'
+           '${color.blue.toRadixString(16).padLeft(2, '0')}'.toUpperCase();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final contrastColor = _getContrastColor(color);
+    final hexString = _colorToHex(color);
+    
     return Material(
       color: color,
       shape: RoundedRectangleBorder(
@@ -808,10 +829,47 @@ class _ColorButton extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         borderRadius: BorderRadius.circular(8),
-        child:
-            isSelected
-                ? const Center(child: Icon(Icons.check, color: Colors.white))
-                : null,
+        child: Container(
+          padding: const EdgeInsets.all(4),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Top section: Selection indicator
+              Align(
+                alignment: Alignment.topRight,
+                child: isSelected
+                    ? Icon(
+                        Icons.check_circle,
+                        color: Colors.white,
+                        size: 16,
+                      )
+                    : const SizedBox(height: 16),
+              ),
+              
+              // Bottom section: Hex color text
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: contrastColor.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
+                  child: Text(
+                    hexString,
+                    style: TextStyle(
+                      color: contrastColor,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'monospace',
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

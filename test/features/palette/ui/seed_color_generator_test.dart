@@ -210,6 +210,69 @@ void main() {
       expect(find.textContaining('FF2196F3FF'), findsOneWidget); // Blue color hex
     });
 
+    testWidgets('should display hex color text on each color button', (WidgetTester tester) async {
+      // Arrange
+      await tester.pumpWidget(
+        ProviderScope(
+          parent: container,
+          child: MaterialApp(
+            home: SeedColorGeneratorPage(),
+          ),
+        ),
+      );
+      
+      // Assert - Should find hex color text (looking for # symbol which indicates hex)
+      expect(find.textContaining('#'), findsWidgets);
+      
+      // Verify that multiple hex texts are displayed (should be 18)
+      final hexTexts = find.textContaining('#');
+      expect(hexTexts.evaluate().length, greaterThan(10)); // At least most of the 18 colors
+    });
+
+    testWidgets('should show hex text in readable contrast color', (WidgetTester tester) async {
+      // Arrange
+      await tester.pumpWidget(
+        ProviderScope(
+          parent: container,
+          child: MaterialApp(
+            home: SeedColorGeneratorPage(),
+          ),
+        ),
+      );
+      
+      // Act - Find hex text widgets
+      final hexTexts = find.textContaining('#');
+      expect(hexTexts, findsWidgets);
+      
+      // Assert - Verify text widgets exist with proper styling
+      for (final widget in tester.widgetList<Text>(hexTexts)) {
+        expect(widget.style?.fontFamily, equals('monospace'));
+        expect(widget.style?.fontSize, equals(10));
+        expect(widget.style?.fontWeight, equals(FontWeight.w600));
+      }
+    });
+
+    testWidgets('should update selection indicator to check_circle icon', (WidgetTester tester) async {
+      // Arrange
+      await tester.pumpWidget(
+        ProviderScope(
+          parent: container,
+          child: MaterialApp(
+            home: SeedColorGeneratorPage(),
+          ),
+        ),
+      );
+      
+      // Act - Find and tap the first color button
+      final colorButtons = find.byType(InkWell);
+      await tester.tap(colorButtons.first);
+      await tester.pump();
+      
+      // Assert - Should show check_circle icon instead of simple check
+      expect(find.byIcon(Icons.check_circle), findsOneWidget);
+      expect(find.byIcon(Icons.check), findsNothing);
+    });
+
     group('Color Selection Tests', () {
       testWidgets('should select color in Seed Mode', (WidgetTester tester) async {
         // Arrange
