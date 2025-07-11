@@ -419,7 +419,7 @@ class _ColorWheelPainter extends CustomPainter {
     canvas.drawCircle(
       center + currentPosition,
       7,
-      Paint()..color = Colors.black.withValues(alpha: 0.5),
+      Paint()..color = Colors.black.withOpacity(0.5),
     );
   }
 
