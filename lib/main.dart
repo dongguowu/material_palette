@@ -18,28 +18,9 @@ Future<void> main() async {
 
   await setupDependencies(getIt);
 
-  // 1. Load environment variables from .env file
-  // try {
-  //   await dotenv.load(fileName: ".env");
-  // } catch (e) {
-  //   loadError = ".env file not found or error loading: $e";
-  // }
-
-  // 2. Initialize UserSettingsProvider (SharedPreferences)
-
-  // 3. Initialize DarkModeChangeNotifierProvider (depends on UserSettingsProvider)
-
-  // make sure you register it as a Singleton or a lazySingleton
-  getIt.registerSingleton<AuthService>(AuthService());
-  getIt.registerSingleton<AppRouter>(
-    AppRouter(getIt<AuthService>()),
-    signalsReady: true,
-  );
-
-  // 4. Setup providers using MultiProvider
   runApp(
     ProviderScope(
-      child: MyApp(initialError: loadError), // 4.1 Pass any initial errors
+      child: MyApp(initialError: loadError),
     ),
   );
 }
@@ -65,12 +46,16 @@ class MyApp extends ConsumerWidget {
           brightness: Brightness.light, // Light or dark mode
         ),
       ),
-      darkTheme: AppMaterialTheme.dark,
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: seedColor,
+          brightness: Brightness.dark,
+        ),
+      ),
       themeMode:
           themeMode.valueOrNull?.themeMode ??
           ThemeMode.system, // Use the watched ThemeMode
-      // routerDelegate: getIt<AppRouter>().delegate(),
-      // routeInformationParser: getIt<AppRouter>().defaultRouteParser(),
       routerConfig: _appRouter.config(),
     );
   }

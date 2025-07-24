@@ -36,12 +36,13 @@ class AppSettingsNotifier extends _$AppSettingsNotifier {
   // callers can use the returned Either for error handling
   Future<Either<String, AppSettings>> updateSettings(
       AppSettings toUpdatesettings) async {
-    final either = await _rep.updateSettings(toUpdatesettings);
+    final oldState = state.valueOrNull ?? AppSettings.defaultAppSettings;
     state = const AsyncLoading();
+    final either = await _rep.updateSettings(toUpdatesettings);
     state = AsyncData(either.match(
       (error) {
         logError('[AppSettingsNotifier] Failed to update settings: $error');
-        return AppSettings.defaultAppSettings;
+        return oldState;
       },
       (settings) {
         logInfo('[AppSettingsNotifier] Updated settings: $settings.toString()');

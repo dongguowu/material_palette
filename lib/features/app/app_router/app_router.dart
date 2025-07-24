@@ -23,14 +23,13 @@ class AppRouter extends RootStackRouter {
       page: RootAdaptiveScreenRoute.page,
       initial: true,
       children: [
-        AutoRoute(page: HomeRoute.page, path: 'home', initial: true),
+        AutoRoute(page: HomeRoute.page, path: 'home'),
         AutoRoute(
           page: SeedColorGeneratorRoute.page,
           path: 'seed-color-generator',
-          initial: false,
         ),
-        AutoRoute(page: ColorHelperRoute.page, path: 'helper', initial: false),
-        AutoRoute(page: AboutRoute.page, path: 'about', initial: false),
+        AutoRoute(page: ColorHelperRoute.page, path: 'helper'),
+        AutoRoute(page: AboutRoute.page, path: 'about'),
       ],
     ),
     // Other routes

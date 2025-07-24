@@ -172,14 +172,26 @@ abstract class AppSettings with _$AppSettings {
 
   /// Migrates the settings to the current version.
   AppSettings migrate() {
-    if (version != null && version! < currentVersion) {
-      if (version == 1) {
-        return copyWith(
-          version: currentVersion,
-        );
-      }
+    if (version == null || version! >= currentVersion) {
+      return this;
     }
-    return this;
+
+    var migrated = this;
+    if (version == 1) {
+      migrated = migrated.copyWith(
+        isDarkModeEnabled: defaultValue.isDarkModeEnabled,
+        selectedPageIndex: defaultValue.selectedPageIndex,
+        selectedMarkerIndex: defaultValue.selectedMarkerIndex,
+      );
+    }
+    if (version == 2) {
+      migrated = migrated.copyWith(
+        selectedPageIndex: defaultValue.selectedPageIndex,
+        selectedMarkerIndex: defaultValue.selectedMarkerIndex,
+      );
+    }
+
+    return migrated.copyWith(version: currentVersion);
   }
 
   /// Returns the default application settings.
