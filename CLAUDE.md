@@ -379,3 +379,56 @@ flutter run -d android         # Android Emulator
 flutter test                   # Unit tests
 flutter test integration_test/ # Integration tests
 ```
+
+## Application Improvement Plan
+
+This plan outlines the steps to address the findings from the code quality analysis.
+
+### Phase 1: Foundational Fixes
+
+1.  **✅ Fix `flutter analyze` command**
+    -   **Priority**: Critical
+    -   **Problem**: The command crashes due to a `FileSystemException`, preventing automated static analysis.
+    -   **Task**: Resolve the symlink issue in the development environment (likely related to WSL). This is essential for maintaining code quality.
+
+2.  **✅ Fix Dependency Injection**
+    -   **Priority**: High
+    -   **Problem**: `AppSettingsRepository` is not registered in `setup_dependencies.dart`.
+    -   **Task**: Add `getIt.registerLazySingleton<AppSettingsRepository>(() => AppSettingsRepositoryImpl(getIt()));` to `setupAppSettingDependencies`.
+
+3.  **✅ Refactor `main.dart`**
+    -   **Priority**: High
+    -   **Problem**: Contains commented-out code and direct `getIt` registrations.
+    -   **Tasks**:
+        -   Move `AuthService` and `AppRouter` registrations to `setup_dependencies.dart`.
+        -   Remove all commented-out code blocks.
+
+### Phase 2: Logic and Consistency
+
+4.  **✅ Complete Settings Migration**
+    -   **Priority**: Medium
+    -   **Problem**: The `migrate()` method in `app_settings_model.dart` is incomplete.
+    -   **Task**: Implement the full migration logic to handle transitions between all schema versions.
+
+5.  **✅ Unify Theme Generation**
+    -   **Priority**: Medium
+    -   **Problem**: The dark theme is hardcoded, unlike the light theme.
+    -   **Task**: In `main.dart`, generate the `darkTheme` using `ColorScheme.fromSeed` with `brightness: Brightness.dark` for consistency.
+
+6.  **✅ Refine Routing Configuration**
+    -   **Priority**: Low
+    -   **Problem**: Redundant `initial: true` flags in `app_router.dart`.
+    -   **Task**: Remove the `initial: true` from the child `HomeRoute` and the explicit `initial: false` from other routes.
+
+### Phase 3: State Management and Refinements
+
+7.  **✅ Improve Notifier State Handling**
+    -   **Priority**: Low
+    -   **Problem**: The `AppSettingsNotifier` reverts to default settings on update failure.
+    -   **Task**: Modify the `updateSettings` method to preserve the old state in case of an update error, providing a better user experience.
+
+8.  **✅ Rename `updatepartial` method**
+    -   **Priority**: Low
+    -   **Problem**: The method name is unconventional.
+    -   **Task**: Rename `updatepartial` in `app_settings_model.dart` to a more standard name like `merge`.
+
