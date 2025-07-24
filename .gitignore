@@ -71,3 +71,6 @@ app.*.map.json
 # JetBrains IDEs
 *.idea/
 *.iml
+
+## Developdocuments
+/docs/ENGLISH_CORRECTIONS.md
