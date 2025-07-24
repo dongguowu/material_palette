@@ -72,6 +72,15 @@ flutter build linux               # Build Linux app
 flutter test                       # Run all tests
 ```
 
+### Git & SSH
+```bash
+# Test SSH connection to GitHub
+ssh -T git@github.com
+
+# Set remote URL to use SSH
+git remote set-url origin git@github.com:dongguowu/material_palette.git
+```
+
 
 ## Architecture
 
