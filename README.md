@@ -1,84 +1,111 @@
 # Material Palette
 
-**Material Palette** is a comprehensive Flutter application designed to help users explore and apply **Material Design 3 colors** effortlessly. Users select a seed color, and the app dynamically generates a **cohesive color scheme** that aligns with Material Design principles. Whether building user interfaces, designing presentations, or simply experimenting with color theory, Material Palette provides an intuitive and **visually engaging** experience.
+**A comprehensive Flutter application for exploring and applying Material Design 3 colors.**
 
-## 📚 Documentation Navigation
-
-> **📚 Document Purpose**: This README provides a comprehensive project overview. For detailed documentation, please use the navigation guide below to find information across all project documents.
-
-### Core Documentation
-| Document | Purpose | Key Sections |
-|----------|---------|-------------|
-| **[docs/PRD.md](docs/PRD.md)** | Product Requirements | Features, Tech Stack, Success Metrics |
-| **[docs/TECHNICAL_SPECS.md](docs/TECHNICAL_SPECS.md)** | Implementation Details | Code Examples, Architecture, Testing |
-| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | System Design | Diagrams, Patterns, Performance |
-| **[docs/USER_STORIES.md](docs/USER_STORIES.md)** | User Requirements | Personas, Acceptance Criteria, Scenarios |
-| **[docs/API.md](docs/API.md)** | Public Interfaces | Service APIs, Data Models, Usage Examples |
-| **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** | Release Procedures | CI/CD, Build Config, Release Management |
-| **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Problem Solving | Common Issues, Diagnostics, Solutions |
-
-### Development Reference  
-| Document | Purpose | Key Content |
-|----------|---------|-------------|
-| **[CLAUDE.md](CLAUDE.md)** | Development Guide | Quick Start, Patterns, CLI Usage |
-| **[docs/ENGLISH_CORRECTIONS.md](docs/ENGLISH_CORRECTIONS.md)** | Language Assistance | Grammar Correction Instructions |
+This project provides an intuitive and visually engaging experience for developers, designers, and anyone interested in color theory. Select a seed color, and the app dynamically generates a cohesive color scheme that aligns with Material Design principles.
 
 ---
 
-## Project Overview
+## 🚀 Getting Started
 
-Material Palette is a fully-implemented Flutter application for exploring and applying Material Design 3 colors. The project has evolved from an empty repository to a comprehensive color palette tool with sophisticated features and responsive design.
-
-## Architecture & Technology Stack
-
-- **Framework**: Flutter 3.7.2+ with Material 3 support
-- **State Management**: Riverpod with code generation
-- **Navigation**: Auto Route for type-safe routing
-- **Persistence**: SharedPreferences for settings
-- **Dependency Injection**: GetIt service locator
-- **Code Generation**: Freezed for immutable models
-- **For more details, see**: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/TECHNICAL_SPECS.md](docs/TECHNICAL_SPECS.md)
-
-## Core Features
-
-- **Color Seed Management**: Dynamic color scheme generation.
-- **Advanced Color Picker**: Custom color wheel, Material palette grid, and hex input.
-- **Material 3 Design Helper**: Color role documentation and accessibility validation.
-- **Adaptive Layout System**: Responsive navigation for all screen sizes.
-- **Settings Management**: Versioned settings with dark mode support.
-
-## Installation
+This section provides a quick overview for developers to get the project running.
 
 ### Prerequisites
 - Flutter SDK 3.7.2 or higher
 - Dart SDK compatible with Flutter version
 
 ### Setup
-1.  Clone the repository
-2.  Install dependencies:
+1.  **Clone the repository**:
+    ```bash
+    git clone git@github.com:dongguowu/material_palette.git
+    cd material_palette
+    ```
+2.  **Install dependencies**:
     ```bash
     flutter pub get
     ```
-3.  Generate code:
+3.  **Generate code**:
     ```bash
     dart run build_runner build --delete-conflicting-outputs
     ```
-4.  Run the app:
+4.  **Run the app**:
     ```bash
     flutter run
     ```
+---
 
-## Usage
+## 📚 Project Documentation Hub
 
-1.  **Select a seed color** from the predefined Material palette or use the custom color picker.
-2.  **View the dynamically generated Material Design color palette**.
-3.  **Explore color relationships** and accessibility information.
-4.  **Toggle between light and dark themes** to see how colors adapt.
+This project uses a multi-file documentation structure to keep information organized and easy to find. Use this hub to navigate to the document you need based on your role or task.
 
-## Project Status
+### I am a...
 
-The `1-core-functionality-implementation` branch contains a **production-ready** Material Palette application with sophisticated color management, responsive design, and comprehensive Material 3 integration.
+<details>
+<summary>👨‍💻 <strong>Developer</strong></summary>
 
-## License
+| Document | What you'll find |
+| :--- | :--- |
+| **[CLAUDE.md](CLAUDE.md)** | **Start here.** Your primary guide for development setup, commands, and project-specific conventions. |
+| **[docs/TECHNICAL_SPECS.md](docs/TECHNICAL_SPECS.md)** | Deep dive into the code. Detailed implementation patterns, code examples, and API usage. |
+| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | Understand the big picture. System design, component relationships, and data flow diagrams. |
+| **[docs/API.md](docs/API.md)** | Public interfaces, service contracts, and data models. |
+| **[docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)** | How to build and release the app. CI/CD pipelines and platform-specific deployment. |
+| **[docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Solutions for common build, runtime, and performance issues. |
 
-[MIT License](LICENSE)
+</details>
+
+<details>
+<summary>🎨 <strong>Designer or Product Manager</strong></summary>
+
+| Document | What you'll find |
+| :--- | :--- |
+| **[docs/PRD.md](docs/PRD.md)** | **Start here.** The "what" and "why" of the project. Product vision, feature requirements, and success metrics. |
+| **[docs/USER_STORIES.md](docs/USER_STORIES.md)** | Understand our users. Personas, user journeys, and acceptance criteria for features. |
+| **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** | High-level overview of the system's structure and technical capabilities. |
+
+</details>
+
+<details>
+<summary>🤝 <strong>New Contributor</strong></summary>
+
+| Document | What you'll find |
+| :--- | :--- |
+| **[README.md](README.md)** | **You are here.** Get a project overview and learn how to navigate the docs. |
+| **[CLAUDE.md](CLAUDE.md)** | Your guide to getting started with development and understanding our workflow. |
+| **[docs/PRD.md](docs/PRD.md)** | Understand the project's goals and features before you start coding. |
+
+</details>
+
+### I want to know about...
+
+- **Project Goals & Features**: See the **[Product Requirements Document (PRD)](docs/PRD.md)**.
+- **User Personas & Scenarios**: See the **[User Stories](docs/USER_STORIES.md)**.
+- **System Design & Data Flow**: See the **[Architecture Document](docs/ARCHITECTURE.md)**.
+- **Code Examples & Implementation Details**: See the **[Technical Specs](docs/TECHNICAL_SPECS.md)**.
+- **How to Deploy the App**: See the **[Deployment Guide](docs/DEPLOYMENT.md)**.
+- **How to Fix Common Problems**: See the **[Troubleshooting Guide](docs/TROUBLESHOOTING.md)**.
+
+---
+
+## ✨ Core Features
+
+- **Dynamic Color Generation**: Create full Material 3 palettes from a single seed color.
+- **Advanced Color Picker**: Fine-tune your selection with a custom color wheel and hex input.
+- **Accessibility Compliance**: Real-time WCAG contrast ratio validation.
+- **Adaptive UI**: Responsive design that looks great on mobile, tablet, and desktop.
+- **Export Options**: Get your color schemes in multiple formats (Flutter, CSS, JSON).
+
+## 🛠️ Technology Stack
+
+- **Framework**: Flutter
+- **Architecture**: Clean Architecture, Feature-based
+- **State Management**: Riverpod
+- **Navigation**: Auto Route
+- **Persistence**: SharedPreferences
+- **For a detailed breakdown, see**: **[Technical Specs](docs/TECHNICAL_SPECS.md#technology-stack--dependencies)**.
+
+---
+
+## ⚖️ License
+
+This project is licensed under the [MIT License](LICENSE).
