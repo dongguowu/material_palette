@@ -161,7 +161,7 @@ abstract class AppSettings with _$AppSettings {
   }
 
   /// Updates the current settings with non-null values from another instance.
-  AppSettings updatepartial(AppSettings other) {
+  AppSettings merge(AppSettings other) {
     return AppSettings(
       version: other.version ?? version,
       isDarkModeEnabled: other.isDarkModeEnabled ?? isDarkModeEnabled,

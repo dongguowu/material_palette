@@ -157,7 +157,7 @@ class SharedPrefsDataSource implements AppSettingsDataSource {
     }
 
     // 1.2. Create merged settings
-    final mergedSettings = _cachedSettings!.updatepartial(partialSettings);
+    final mergedSettings = _cachedSettings!.merge(partialSettings);
 
     // 2. Change detection
     // 2.1 & 2.2. Skip if no changes detected
