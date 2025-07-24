@@ -44,7 +44,7 @@ void main() {
         
         // Test specific threshold cases
         expect(getContrastColor(const Color(0xFF7F7F7F)), equals(Colors.white)); // Just below threshold
-        expect(getContrastColor(const Color(0xFF808080)), equals(Colors.white)); // At threshold
+        expect(getContrastColor(const Color(0xFF808080)), equals(Colors.black)); // At threshold
       });
 
       test('should be consistent for same colors', () {
@@ -57,9 +57,9 @@ void main() {
 
     group('Hex Color Conversion', () {
       test('should convert basic colors to hex correctly', () {
-        expect(colorToHex(Colors.red), equals('#FF0000'));
-        expect(colorToHex(Colors.green), equals('#00FF00'));
-        expect(colorToHex(Colors.blue), equals('#0000FF'));
+        expect(colorToHex(Colors.red), equals('#F44336'));
+        expect(colorToHex(Colors.green), equals('#4CAF50'));
+        expect(colorToHex(Colors.blue), equals('#2196F3'));
         expect(colorToHex(Colors.white), equals('#FFFFFF'));
         expect(colorToHex(Colors.black), equals('#000000'));
       });

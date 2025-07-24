@@ -390,6 +390,7 @@ class _SeedColorGeneratorPageState extends ConsumerState<SeedColorGeneratorPage>
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Text(
+              key: const ValueKey('current_color_text'),
               'Current ${_isSeedMode ? 'Seed' : 'Generated'} Color: #${currentColor.r.round().toRadixString(16).padLeft(2, '0')}'
                       '${currentColor.g.round().toRadixString(16).padLeft(2, '0')}'
                       '${currentColor.b.round().toRadixString(16).padLeft(2, '0')}'
