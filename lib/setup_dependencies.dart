@@ -21,6 +21,9 @@ Future<void> setupAppSettingDependencies(GetIt getIt) async {
   getIt.registerLazySingleton<AppSettingsDataSource>(
     () => SharedPrefsDataSource(sharedPrefs),
   );
+  getIt.registerLazySingleton<AppSettingsRepository>(
+    () => AppSettingsRepositoryImpl(getIt()),
+  );
 }
 
 /// Sets up dependencies related to logging.
