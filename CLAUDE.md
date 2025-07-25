@@ -69,8 +69,26 @@ flutter build linux               # Build Linux app
 
 ### Testing
 ```bash
-flutter test                       # Run all tests
+# Run all tests
+flutter test
+
+# Run all tests with coverage
+flutter test --coverage
+
+# Run a specific test file
+flutter test test/features/palette/ui/seed_color_generator_test.dart
+
+# Run tests in a specific group by name
+flutter test --plain-name "Mode Toggle"
 ```
+
+#### Test Troubleshooting
+If tests fail, follow these steps:
+1.  **Check Flutter version**: Ensure you are on Flutter 3.30.0+
+2.  **Update dependencies**: Run `flutter pub get`
+3.  **Check imports**: Verify all required packages are available
+4.  **Review error messages**: Look for specific assertion failures
+5.  **Isolate the test**: Run the failing test file or group individually to debug
 
 ### Git & SSH
 ```bash
@@ -172,6 +190,9 @@ When adding new features, be aware of these patterns:
 - Color scheme sharing capabilities
 - Custom color harmony algorithms
 - Design system integration tools
+- Color palette export functionality
+- Material 3 theme builder
+- Color accessibility checker
 
 ## Development Guidelines
 
@@ -194,6 +215,25 @@ When adding new features, be aware of these patterns:
 - Uses HCT (Hue, Chroma, Tone) color space for accurate color generation ([implementation details](docs/TECHNICAL_SPECS.md#material-3-color-implementation))
 - Implements both seed → palette and primary → seed calculations
 - Maintains compliance with Material 3 specifications
+
+#### Color Calculation Snippets
+```dart
+// HSV-based seed calculation from primary color
+Color _calculateSeedFromPrimary(Color primaryColor) {
+  final hsv = HSVColor.fromColor(primaryColor);
+  return hsv.withSaturation((hsv.saturation * 0.9).clamp(0.3, 1.0))
+           .withValue((hsv.value * 0.95).clamp(0.4, 1.0))
+           .toColor();
+}
+
+// Smart contrast color for text readability
+Color _getContrastColor(Color backgroundColor) {
+  final luminance = (0.299 * backgroundColor.red + 
+                   0.587 * backgroundColor.green + 
+                   0.114 * backgroundColor.blue) / 255;
+  return luminance > 0.5 ? Colors.black : Colors.white;
+}
+```
 
 ### Responsive Design Breakpoints ([layout system](docs/TECHNICAL_SPECS.md#adaptive-ui-system))
 - Small: <600dp (bottom navigation)
@@ -229,7 +269,13 @@ When adding new features, be aware of these patterns:
 - Integration tests for user flows
 - Accessibility testing for WCAG compliance
 
-
+## Key Learnings & Important Notes
+- **Default selectedPageIndex must be 0** (not -1) for AutoRoute to avoid assertion errors.
+- **Use `withValues()` instead of the deprecated `withOpacity()`** for future compatibility.
+- **`ValueKey` is essential for proper widget rebuilds** in lists when the underlying data changes.
+- **Test expectations must match UI changes precisely** (e.g., `Icons.check` vs. `Icons.check_circle`).
+- **HSV color space adjustments** are highly effective for algorithmic color manipulations in Material 3.
+- **Luminance-based contrast calculations** (W3C formula) are crucial for ensuring text readability and accessibility.
 
 ## Key Implementation Files
 
@@ -431,4 +477,3 @@ This plan outlines the steps to address the findings from the code quality analy
     -   **Priority**: Low
     -   **Problem**: The method name is unconventional.
     -   **Task**: Rename `updatepartial` in `app_settings_model.dart` to a more standard name like `merge`.
-
