@@ -90,6 +90,13 @@ If tests fail, follow these steps:
 4.  **Review error messages**: Look for specific assertion failures
 5.  **Isolate the test**: Run the failing test file or group individually to debug
 
+### Diagnostics
+```bash
+# Run the diagnostic script to check the test environment
+bash diagnostic.sh
+```
+**Note**: The diagnostic script may report analysis issues. It is recommended to fix these to ensure code quality, but they may not prevent the tests from passing.
+
 ### Git & SSH
 ```bash
 # Test SSH connection to GitHub
