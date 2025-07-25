@@ -997,3 +997,120 @@ The main challenge is an environmental issue preventing `flutter analyze` from r
 7.  **State Management**: Minor improvements possible in the `AppSettingsNotifier` regarding state handling on update failure and return values.
 
 For a detailed improvement plan, see the "Improvement Plan" section in the main `README.md`.
+
+## Coding Guidelines
+1. Use proper null safety practices with non-nullable types by default
+2. Implement error handling with Either<Error, Success> or AsyncValue pattern
+3. Follow consistent naming conventions (camelCase for variables, PascalCase for classes)
+4. Use proper widget composition with small, focused widgets
+5. Implement routing using AutoRoute or GoRouter with proper route guards
+6. Use form validation with FormBuilders or custom validators
+7. Follow proper state management with Riverpod or BLoC
+8. Implement dependency injection using GetIt or Riverpod providers
+9. Use proper asset management with generated R classes
+10. Follow TDD practices with comprehensive test coverage
+11. Use immutable data models with Freezed or built_value
+12. Implement proper logging with structured logging patterns
+13. Use extension methods for cleaner code
+14. Follow consistent error handling patterns across the app
+15. Document public APIs with Dart doc comments
+
+## Widget Guidelines
+1. Keep widgets small, focused, and single-responsibility
+2. Use const constructors whenever possible for performance
+3. Implement proper widget keys for stateful widgets and lists
+4. Follow proper layout principles (avoid deep nesting, use layout widgets)
+5. Use proper widget lifecycle methods and dispose resources
+6. Implement error boundaries with ErrorWidget.builder
+7. Use proper performance optimization (const, RepaintBoundary, etc.)
+8. Follow accessibility guidelines with semantics and sufficient contrast
+9. Separate business logic from UI components
+10. Use proper theming with ThemeData and theme extensions
+11. Implement responsive layouts with LayoutBuilder or MediaQuery
+12. Use proper text scaling with MediaQuery.textScalerOf
+13. Follow platform-specific design patterns when appropriate
+14. Implement proper loading and error states
+15. Use proper animation patterns with AnimationController
+
+## Performance Guidelines
+1. Use proper image caching and optimization with cached_network_image
+2. Implement list view optimization with ListView.builder and keys
+3. Optimize build methods by minimizing rebuilds
+4. Follow proper state management to prevent unnecessary rebuilds
+5. Implement proper memory management and resource disposal
+6. Use platform channels efficiently for native functionality
+7. Follow proper compilation optimization with tree-shaking
+8. Use const constructors for static widgets
+9. Implement proper pagination for large data sets
+10. Use compute() for expensive operations
+11. Optimize startup time with deferred loading
+12. Implement proper asset optimization (size, format)
+13. Use DevTools for performance profiling
+14. Minimize shader compilation jank with shader warming
+15. Implement proper caching strategies for network requests
+
+## Testing Guidelines
+1. Write unit tests for business logic and repositories
+2. Implement widget tests for UI components with WidgetTester
+3. Use integration tests for feature testing with integration_test
+4. Implement proper mocking strategies with Mockito or MockBuilder
+5. Use proper test coverage tools and aim for high coverage
+6. Follow proper test naming conventions (given_when_then or arrange_act_assert)
+7. Implement proper CI/CD testing with GitHub Actions or similar
+8. Use golden tests for UI regression testing
+9. Implement proper test fixtures and factories
+10. Test error cases and edge conditions
+11. Use parameterized tests for multiple test cases
+12. Implement proper test documentation
+13. Use proper test doubles (mocks, stubs, fakes)
+14. Test accessibility with semantics testing
+15. Implement proper test isolation and cleanup
+
+### Test Numbering Convention
+1.  **Test Groups**: Test groups (`group()` functions) should be numbered with a hash prefix and a multiple of 1000 (e.g., `#1000`, `#2000`). This helps in organizing tests by feature or functionality.
+2.  **Test Cases**: Individual test cases (`test()` or `testWidgets()` functions) should be numbered sequentially within their group, starting from 11 (e.g., `#1011`, `#1012`). This provides a unique identifier for each test case.
+3.  **Prefix**: Test filenames must be prefixed with `w_` for widget tests, `u_` for unit tests, and `i_` for integration tests (e.g., `u_app_settings_test.dart`).
+
+### Test Description Guidelines
+1.  **Structure**: Use the `given_when_then` or `arrange_act_assert` structure for test descriptions.
+2.  **Clarity**: Descriptions should be clear, concise, and descriptive.
+
+### Mock Generation Guidelines
+1.  **Mocks**: Use `mockito` or `mocktail` for generating mocks.
+2.  **Location**: Place mock files in a `mocks` folder within the `test` directory.
+
+### Test Helper Functions Guidelines
+1.  **Helpers**: Create reusable test helper functions for common setup or assertions.
+2.  **Location**: Place helper functions in a `helpers` folder within the `test` directory.
+
+## Riverpod Guidelines
+1. Use @riverpod annotation for code generation
+2. Implement proper error handling with AsyncValue
+3. Use ref.watch() for reactive dependencies
+4. Use ref.read() for one-time reads
+5. Implement proper provider organization by feature
+6. Use family modifiers for parameterized providers
+7. Implement proper provider disposal with ref.onDispose
+8. Use autoDispose for temporary state
+9. Implement proper caching strategies
+10. Use ConsumerWidget and ConsumerStatefulWidget
+11. Implement proper loading and error UI states
+12. Use select() for fine-grained rebuilds
+13. Follow proper testing patterns for providers
+14. Use provider overrides for testing
+15. Implement proper provider dependencies
+
+## Flutter Best Practices
+1.  **Clean Architecture**: Follow Clean Architecture principles for separation of concerns.
+2.  **Modularity**: Use a feature-based folder structure for modularity.
+3.  **State Management**: Use `Riverpod` for state management with `freezed` for immutable states.
+4.  **Routing**: Use `auto_route` for type-safe navigation.
+5.  **DI**: Use `get_it` for dependency injection.
+6.  **Testing**: Write comprehensive unit, widget, and integration tests.
+7.  **Documentation**: Maintain up-to-date documentation for all public APIs.
+
+## Documentation Guidelines
+1.  **README**: The `README.md` file should provide a high-level overview of the project.
+2.  **Technical Specs**: The `docs/TECHNICAL_SPECS.md` should contain detailed technical information.
+3.  **Architecture**: The `docs/ARCHITECTURE.md` should outline the system architecture.
+4.  **Doc Comments**: Use Dart doc comments for all public APIs.
